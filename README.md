@@ -26,6 +26,28 @@ The prototype uses a transparent synthetic **Exposure Index (0–100)** for prio
 
 All shipment-level data in this repository is synthetic.
 
+## Current implementation
+
+A working implementation now exists on:
+
+- branch: `build/intermodal-ledger`
+- Draft PR: **#1 — Build Intermodal Ledger Cargo Risk Window prototype**
+
+`main` remains the frozen product/design-contract layer until final QA and Evaluation Capture are approved.
+
+Current implementation includes:
+- 24 deterministic synthetic shipments;
+- ranked review manifest;
+- selectable shipment state;
+- transparent 0–100 factor reconciliation;
+- Intermodal Risk Corridor;
+- reason codes and critical dwell state;
+- separate public aggregate context;
+- human review actions;
+- Motion selection/state transitions;
+- Anime.js scoped corridor/reason choreography;
+- reduced-motion complete state.
+
 ## TRACE workflow
 
 Workflow source of truth:
@@ -44,11 +66,11 @@ Current TRACE state:
 - **A — Typography:** **Archivo + IBM Plex Mono / PASS**
 - **C — Differentiation:** PASS
 - **C — Uniqueness Audit:** PASS at design-contract level
-- **C — Data Visualization:** PASS
-- **Current status:** **READY FOR IMPLEMENTATION**
-- **Next required output:** working product implementation, then Gate 6 QA / Polish
+- **C — Data Visualization:** PASS / revised from implementation evidence
+- **E — Gate 6 QA / Polish:** **IN PROGRESS; automated rendered QA passing**
+- **Next required output:** owner review + Gate 6.5 Evaluation Capture
 
-Frozen decisions must not be reopened without a concrete conflict.
+Frozen product decisions must not be reopened without a concrete conflict.
 
 ## Frozen product structure
 
@@ -135,28 +157,51 @@ See [`docs/PALETTE_BRAND.md`](docs/PALETTE_BRAND.md).
 
 See [`docs/TYPOGRAPHY.md`](docs/TYPOGRAPHY.md) and [`design/typography.tokens.json`](design/typography.tokens.json).
 
-## Data visualization
+## Data visualization — validated implementation approach
 
-Primary visualization approach:
+The original pre-build assumption that D3 would be required was reopened after implementation evidence.
+
+Validated MVP stack:
 
 ```text
-React
-  + SVG
-  + D3 scale/geometry helpers
+React semantic route modules
+  + CSS grid/flex
+  + lightweight CSS/SVG marks where useful
 ```
 
-The Risk Corridor remains the primary analytical artifact. Supporting bars/context charts stay lightweight. A geographic map is optional and secondary.
+The corridor is a categorical operational sequence, so adding D3 did not improve the core analytical job. D3 remains available only if a future continuous time/geometry requirement genuinely needs it.
+
+The Risk Corridor remains the primary analytical artifact. A geographic map is optional and secondary.
 
 See [`docs/DATA_VISUALIZATION.md`](docs/DATA_VISUALIZATION.md).
 
 ## Motion ownership
 
-- **Motion** → React layout/state transitions such as manifest selection and reason detail state.
-- **Anime.js** → Risk Corridor SVG/editorial sequence and ordered route/reason reveals.
+- **Motion** → React layout/state transitions such as manifest selection and review state.
+- **Anime.js** → ordered Risk Corridor / reason-code reveal.
 - GSAP / Rive / Three.js → not required for the MVP.
 - no ambient looping threat animation.
 
-Reduced motion must preserve a complete static state.
+Reduced motion preserves a complete static state.
+
+## Rendered QA
+
+The Draft PR uses GitHub Actions + Chromium/Playwright to build, render and assert the product.
+
+Passing checks include:
+- production TypeScript/Vite build;
+- desktop 1440×900;
+- keyboard focus;
+- alternate shipment selection;
+- human escalation state;
+- tablet 900×1100;
+- mobile 390×844;
+- reduced-motion complete state;
+- rendered uniqueness recheck.
+
+Implementation QA docs live on the build branch:
+- `docs/QA_RENDERED_001.md`
+- `docs/UNIQUENESS_AUDIT_RENDERED.md`
 
 ## Repository map
 
@@ -172,16 +217,17 @@ docs/
   TYPOGRAPHY.md             Locked typography system
   DIFFERENTIATION_MOTION.md Signature + motion ownership
   UNIQUENESS_AUDIT.md       Design-level anti-generic audit
-  DATA_VISUALIZATION.md     Visualization tools and encodings
+  DATA_VISUALIZATION.md     Visualization job/tool contract
+  IMPLEMENTATION_HANDOFF.md Build handoff
 
 design/
   typography.tokens.json    Machine-readable typography tokens
 
 data/
   synthetic-schema.json     Machine-readable synthetic data schema
-src/                        Product implementation
-public/                     Public assets
 ```
+
+Build branch adds the React/Vite implementation, CI and rendered QA artifacts.
 
 ## Data policy
 
@@ -189,7 +235,7 @@ public/                     Public assets
 - public incident/trend information: aggregate contextual reference only;
 - private/confidential logistics data: prohibited;
 - personal data: none;
-- synthetic/public boundaries must remain visible in the UI and case study.
+- synthetic/public boundaries remain visible in the UI and case study.
 
 ## Implementation guardrails
 
@@ -206,6 +252,6 @@ Do not replace the frozen product with:
 
 ## Current status
 
-**Pre-build design gates complete — READY FOR IMPLEMENTATION.**
+**Working prototype built — Draft PR #1 — Gate 6 rendered QA passing.**
 
-Build the frozen product first. After a working implementation exists, run Gate 6 QA against the real rendered desktop/mobile viewport, including typography, accessibility, reduced motion, uniqueness, claim boundaries and presentation capture.
+Keep the PR in draft until the owner reviews the actual rendered captures and Gate 6.5 Evaluation Capture is resolved. Then the branch can be marked ready for review and promoted to `main` deliberately.
