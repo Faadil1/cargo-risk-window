@@ -1,4 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { animate, createScope, stagger } from 'animejs'
+import { motion, useReducedMotion } from 'motion/react'
 import {
   AlertTriangle,
   Box,
@@ -34,6 +36,7 @@ function SegmentIcon({ mode }: { mode: RouteSegment['mode'] }) {
 }
 
 function ReviewQueue({ selected, onSelect, states }: { selected: string; onSelect: (id: string) => void; states: Record<string, ReviewState> }) {
+  const reduceMotion = useReducedMotion()
   return (
     <aside className="manifest" aria-label="Ranked synthetic shipment manifest">
       <div className="manifest__head">
@@ -55,6 +58,14 @@ function ReviewQueue({ selected, onSelect, states }: { selected: string; onSelec
               onClick={() => onSelect(shipment.id)}
               aria-pressed={isSelected}
             >
+              {isSelected && (
+                <motion.span
+                  className="manifest-selection-marker"
+                  layoutId="manifest-selection-marker"
+                  transition={reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 520, damping: 38 }}
+                  aria-hidden="true"
+                />
+              )}
               <span className="manifest-row__rank mono">{String(index + 1).padStart(2, '0')}</span>
               <span className="manifest-row__main">
                 <strong className="mono">{shipment.id}</strong>
@@ -97,8 +108,32 @@ function FocusHeader({ shipment }: { shipment: Shipment }) {
 }
 
 function RiskCorridor({ shipment }: { shipment: Shipment }) {
+  const root = useRef<HTMLElement>(null)
+  const reduceMotion = useReducedMotion()
+
+  useEffect(() => {
+    if (reduceMotion || !root.current) return
+    const scope = createScope({ root }).add(() => {
+      animate('[data-corridor-segment]', {
+        opacity: [0, 1],
+        y: [10, 0],
+        delay: stagger(75),
+        duration: 360,
+        ease: 'outQuad',
+      })
+      animate('[data-corridor-reason]', {
+        opacity: [0, 1],
+        y: [5, 0],
+        delay: stagger(60, { start: 260 }),
+        duration: 260,
+        ease: 'outQuad',
+      })
+    })
+    return () => scope.revert()
+  }, [shipment.id, reduceMotion])
+
   return (
-    <section className="corridor surface" aria-labelledby="corridor-title">
+    <section ref={root} className="corridor surface" aria-labelledby="corridor-title">
       <div className="section-head">
         <div>
           <p className="eyebrow">Primary signature</p>
@@ -114,7 +149,7 @@ function RiskCorridor({ shipment }: { shipment: Shipment }) {
 
       <div className="corridor__strip" role="list" aria-label="Route and time segments">
         {shipment.segments.map((segment, index) => (
-          <div className={`route-module route-module--${segment.exposure}`} key={segment.id} role="listitem">
+          <div data-corridor-segment className={`route-module route-module--${segment.exposure}`} key={segment.id} role="listitem">
             <div className="route-module__connector" aria-hidden="true">
               <span />
               {index < shipment.segments.length - 1 && <i />}
@@ -125,7 +160,7 @@ function RiskCorridor({ shipment }: { shipment: Shipment }) {
             <div className="route-module__time mono">{segment.start}<br />→ {segment.end}</div>
             {segment.reasonCodes.length > 0 && (
               <div className="reason-tags">
-                {segment.reasonCodes.slice(0, 3).map((code) => <span className="mono" key={code}>{code}</span>)}
+                {segment.reasonCodes.slice(0, 3).map((code) => <span data-corridor-reason className="mono" key={code}>{code}</span>)}
               </div>
             )}
             {segment.note && <p className="route-module__note">{segment.note}</p>}
@@ -200,11 +235,19 @@ function PublicContextPanel({ shipment }: { shipment: Shipment }) {
 }
 
 function ReviewPanel({ shipment, state, onAction }: { shipment: Shipment; state: ReviewState; onAction: (state: ReviewState) => void }) {
+  const reduceMotion = useReducedMotion()
   return (
     <aside className="review-panel surface">
       <p className="eyebrow">Human review outcome</p>
-      <h2>{state === 'pending' ? 'Decision remains human' : state === 'escalated' ? 'Escalated for review' : 'Review recorded'}</h2>
-      <p>{shipment.recommendedAction}</p>
+      <motion.div
+        key={`${shipment.id}-${state}`}
+        initial={reduceMotion ? false : { opacity: 0, y: 4 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: reduceMotion ? 0 : .18 }}
+      >
+        <h2>{state === 'pending' ? 'Decision remains human' : state === 'escalated' ? 'Escalated for review' : 'Review recorded'}</h2>
+        <p>{shipment.recommendedAction}</p>
+      </motion.div>
       <div className="review-panel__verification">
         <FileCheck2 size={18} />
         <div><span>Carrier verification</span><strong className="capitalize">{shipment.carrierVerification}</strong></div>
