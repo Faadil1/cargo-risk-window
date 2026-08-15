@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - build/intermodal-ledger
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Upload Vite build
+        uses: actions/upload-artifact@v4
+        with:
+          name: vite-dist
+          path: dist/
+          if-no-files-found: error
+      - name: Start preview
+        run: |
+          npm run preview -- --host 127.0.0.1 > /tmp/cargo-risk-window-vite.log 2>&1 &
+          for i in {1..20}; do
+            if curl -fsS http://127.0.0.1:4173 >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/cargo-risk-window-vite.log
+          exit 1
+      - name: Install Playwright for QA only
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium
+      - name: Run rendered interaction QA
+        run: node qa/rendered-qa.mjs
+      - name: Upload rendered QA
+        uses: actions/upload-artifact@v4
+        with:
+          name: rendered-qa
+          path: qa-artifacts/
+          if-no-files-found: error
