@@ -39,9 +39,11 @@ Current TRACE state:
 - **T — Truth:** PASS
 - **R — Research / Product Flow:** PASS
 - **R — Domain Metaphor:** PASS
-- **A — Visual Direction:** `Freight Ledger` selected
-- **Current gate:** **2.25 — Visual Prototype**
-- **Next required output:** 2–3 coherent full-screen visual prototypes before implementation
+- **A — Visual Direction:** PASS
+- **A — Visual Prototype:** **C — Intermodal Ledger selected / PASS**
+- **Current gate:** **2.5 — Palette / Brand**
+- **Selected palette:** `Mineral Intermodal`
+- **Next required output:** validate palette in the chosen full-screen composition, then formalize Gate 3 Design System
 
 Frozen decisions must not be reopened without a concrete conflict.
 
@@ -61,11 +63,11 @@ Public Context
 Human Review Outcome
 ```
 
-### Primary signature — Risk Corridor
+### Primary signature — Intermodal Risk Corridor
 
-The central visualization combines **route + time + exposure factors** so the reviewer can see when a shipment enters an exposure window and which factors created that state.
+The central visualization combines **route + time + modal segments + exposure factors** so the reviewer can see when a shipment enters an exposure window and which factors created that state.
 
-The signature is the business mechanism itself — not a decorative chart.
+The selected prototype expresses this as an intermodal route strip rather than a conventional map-first security dashboard.
 
 ## Exposure Index
 
@@ -83,36 +85,51 @@ The current transparent heuristic allocates a maximum of 100 points:
 
 Every shipment must expose the component contributions and visible reason codes. See [`docs/RISK_INDEX.md`](docs/RISK_INDEX.md).
 
-## Visual direction — Freight Ledger
+## Selected visual prototype — C: Intermodal Ledger
 
-The selected art direction is **Freight Ledger**: a contemporary logistics-intelligence workspace with editorial clarity rather than a generic cyber/SOC aesthetic.
-
-Key principles:
-
-- mineral/light operational canvas rather than black hacker UI;
-- graphite/navy structure;
-- copper/amber reserved for exposure/action;
-- manifest-like information density;
-- one dominant Risk Corridor;
+The selected composition makes the freight domain visible through:
+- manifest/index structure;
 - modular route segments;
-- restrained cinematic focus only where it improves review priority;
-- no neon radar, pulsing map pins or fake prediction confidence.
+- route/time progression;
+- reason codes attached to operational segments;
+- a review-mark style human outcome;
+- one dominant Intermodal Risk Corridor.
+
+A and B remain archived as exploration references only.
 
 See [`docs/DESIGN_DIRECTION.md`](docs/DESIGN_DIRECTION.md).
+
+## Palette — Mineral Intermodal
+
+The current Gate 2.5 palette deliberately avoids white/navy/red dashboard conventions.
+
+Core colors:
+- mineral sage canvas `#D8DCCF`;
+- warm bone surfaces `#EAE1D5`;
+- aubergine-charcoal ink `#2B2730`;
+- freight violet active state `#635D9A`;
+- oxidized teal normal/verified `#3E7B6C`;
+- terracotta elevated exposure `#D46A4C`;
+- plum critical review `#8E4662`;
+- muted brass public context `#B7A85A`.
+
+See [`docs/PALETTE_BRAND.md`](docs/PALETTE_BRAND.md).
 
 ## Repository map
 
 ```text
 docs/
-  PRODUCT_CONTRACT.md   Product truth, users, claims and frozen flow
-  DATA_MODEL.md         Synthetic dataset contract
-  RISK_INDEX.md         Transparent exposure-index specification
-  DESIGN_DIRECTION.md   Freight Ledger visual direction
+  PRODUCT_CONTRACT.md       Product truth, users, claims and frozen flow
+  DATA_MODEL.md             Synthetic dataset contract
+  RISK_INDEX.md             Transparent exposure-index specification
+  DESIGN_DIRECTION.md       Selected Intermodal Ledger composition
+  VISUAL_PROTOTYPE_BRIEF.md Gate 2.25 comparison contract
+  PALETTE_BRAND.md          Gate 2.5 Mineral Intermodal palette
 
 data/
-  synthetic-schema.json Machine-readable synthetic data schema
-src/                    Product implementation — created after Gate 2.25
-public/                 Public assets — created when implementation starts
+  synthetic-schema.json     Machine-readable synthetic data schema
+src/                        Product implementation — created after design-system lock
+public/                     Public assets — created when implementation starts
 ```
 
 ## Data policy
@@ -125,6 +142,6 @@ public/                 Public assets — created when implementation starts
 
 ## Current status
 
-**Planning / Gate 2.25 — visual prototype before code.**
+**Planning / Gate 2.5 — palette validation before Design System.**
 
-Do not start implementation by creating KPI cards or a generic dashboard shell. First produce and validate the full-screen Freight Ledger composition against the frozen product flow, Risk Corridor and explainability requirements.
+Do not start implementation with a generic dashboard shell. Validate the selected Intermodal Ledger composition using the Mineral Intermodal palette, then proceed to Gate 3 for typography, spacing, component states, route-module rules, visualization semantics and responsive behavior.
