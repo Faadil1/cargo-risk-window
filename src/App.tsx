@@ -236,6 +236,42 @@ function PublicContextPanel({ shipment }: { shipment: Shipment }) {
 
 function ReviewPanel({ shipment, state, onAction }: { shipment: Shipment; state: ReviewState; onAction: (state: ReviewState) => void }) {
   const reduceMotion = useReducedMotion()
+  const hasElevatedDwell = shipment.segments.some(
+    (segment) => segment.mode === 'secure-dwell' || segment.reasonCodes.some((code) => code.startsWith('DWELL')),
+  )
+  const carrierStatus = shipment.carrierVerification === 'verified'
+    ? 'Verified'
+    : shipment.carrierVerification === 'gap'
+      ? 'Gap to resolve'
+      : 'Pending'
+  const monitoringStatus = state === 'escalated' ? 'Enhanced' : state === 'reviewed' ? 'Recorded' : 'Set if escalated'
+  const checklist = [
+    {
+      label: 'Carrier verification',
+      value: carrierStatus,
+      icon: <FileCheck2 size={18} style={{ color: shipment.carrierVerification === 'verified' ? 'var(--teal)' : 'var(--plum)' }} />,
+      background: shipment.carrierVerification === 'verified' ? 'rgba(62,123,108,.08)' : 'rgba(142,70,98,.07)',
+    },
+    {
+      label: 'Dwell plan',
+      value: hasElevatedDwell ? 'Review elevated window' : 'No elevated dwell',
+      icon: <Clock3 size={18} style={{ color: hasElevatedDwell ? 'var(--terracotta)' : 'var(--teal)' }} />,
+      background: hasElevatedDwell ? 'rgba(212,106,76,.07)' : 'rgba(62,123,108,.08)',
+    },
+    {
+      label: 'Secure parking / handoff',
+      value: hasElevatedDwell ? 'Confirm plan' : 'Check if route changes',
+      icon: <ShieldCheck size={18} style={{ color: 'var(--violet)' }} />,
+      background: 'rgba(99,93,154,.07)',
+    },
+    {
+      label: 'Monitoring priority',
+      value: monitoringStatus,
+      icon: <Route size={18} style={{ color: state === 'escalated' ? 'var(--plum)' : 'var(--violet)' }} />,
+      background: state === 'escalated' ? 'rgba(142,70,98,.07)' : 'rgba(99,93,154,.07)',
+    },
+  ]
+
   return (
     <aside className="review-panel surface">
       <p className="eyebrow">Human review outcome</p>
@@ -248,10 +284,23 @@ function ReviewPanel({ shipment, state, onAction }: { shipment: Shipment; state:
         <h2>{state === 'pending' ? 'Decision remains human' : state === 'escalated' ? 'Escalated for review' : 'Review recorded'}</h2>
         <p>{shipment.recommendedAction}</p>
       </motion.div>
-      <div className="review-panel__verification">
-        <FileCheck2 size={18} />
-        <div><span>Carrier verification</span><strong className="capitalize">{shipment.carrierVerification}</strong></div>
+
+      <div style={{ marginTop: 8, paddingTop: 12, borderTop: '1px solid var(--line)' }} aria-label="Human review checklist">
+        <p className="eyebrow">Review checklist</p>
+        <div style={{ display: 'grid', gap: 8 }}>
+          {checklist.map((item) => (
+            <div
+              className="review-panel__verification"
+              key={item.label}
+              style={{ margin: 0, background: item.background }}
+            >
+              {item.icon}
+              <div><span>{item.label}</span><strong>{item.value}</strong></div>
+            </div>
+          ))}
+        </div>
       </div>
+
       <div className="review-panel__actions">
         <button className="button button--primary" onClick={() => onAction('escalated')}>Escalate review</button>
         <button className="button button--secondary" onClick={() => onAction('reviewed')}>Mark reviewed</button>
