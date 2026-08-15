@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Cargo Risk Window Synthetic Dataset",
+  "type": "object",
+  "required": ["meta", "shipments", "public_context"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["synthetic", "generated_for", "claim_boundary"],
+      "properties": {
+        "synthetic": {"const": true},
+        "generated_for": {"const": "cargo-risk-window-day-challenge"},
+        "claim_boundary": {"type": "string"}
+      }
+    },
+    "shipments": {
+      "type": "array",
+      "minItems": 24,
+      "items": {"$ref": "#/$defs/shipment"}
+    },
+    "public_context": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/publicContext"}
+    }
+  },
+  "$defs": {
+    "factorScores": {
+      "type": "object",
+      "required": ["cargo_value", "geography", "dwell", "commodity", "timing", "carrier_verification", "public_context"],
+      "properties": {
+        "cargo_value": {"type": "integer", "minimum": 0, "maximum": 25},
+        "geography": {"type": "integer", "minimum": 0, "maximum": 20},
+        "dwell": {"type": "integer", "minimum": 0, "maximum": 15},
+        "commodity": {"type": "integer", "minimum": 0, "maximum": 15},
+        "timing": {"type": "integer", "minimum": 0, "maximum": 10},
+        "carrier_verification": {"type": "integer", "minimum": 0, "maximum": 10},
+        "public_context": {"type": "integer", "minimum": 0, "maximum": 5}
+      },
+      "additionalProperties": false
+    },
+    "segment": {
+      "type": "object",
+      "required": ["segment_id", "sequence", "label", "start_at", "end_at", "geography_context", "dwell_minutes", "secure_parking_planned", "segment_exposure", "dominant_factors"],
+      "properties": {
+        "segment_id": {"type": "string"},
+        "sequence": {"type": "integer", "minimum": 1},
+        "label": {"type": "string"},
+        "start_at": {"type": "string", "format": "date-time"},
+        "end_at": {"type": "string", "format": "date-time"},
+        "geography_context": {"enum": ["low", "moderate", "elevated", "high"]},
+        "dwell_minutes": {"type": "integer", "minimum": 0},
+        "secure_parking_planned": {"type": "boolean"},
+        "segment_exposure": {"type": "integer", "minimum": 0},
+        "dominant_factors": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "shipment": {
+      "type": "object",
+      "required": ["shipment_id", "origin", "destination", "cargo_category", "cargo_value_band", "departure_at", "eta_at", "timing_context", "carrier_verification_status", "review_status", "exposure_index", "risk_band", "reason_codes", "factor_scores", "segments", "public_context_refs"],
+      "properties": {
+        "shipment_id": {"type": "string"},
+        "origin": {"type": "string"},
+        "destination": {"type": "string"},
+        "cargo_category": {"type": "string"},
+        "cargo_value_band": {"enum": ["low", "medium", "high", "very_high"]},
+        "departure_at": {"type": "string", "format": "date-time"},
+        "eta_at": {"type": "string", "format": "date-time"},
+        "timing_context": {"type": "string"},
+        "carrier_verification_status": {"enum": ["verified", "verification_pending", "verification_gap"]},
+        "review_status": {"enum": ["unreviewed", "reviewing", "reviewed"]},
+        "exposure_index": {"type": "integer", "minimum": 0, "maximum": 100},
+        "risk_band": {"enum": ["low", "watch", "elevated", "priority_review"]},
+        "reason_codes": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "factor_scores": {"$ref": "#/$defs/factorScores"},
+        "segments": {"type": "array", "minItems": 3, "items": {"$ref": "#/$defs/segment"}},
+        "public_context_refs": {"type": "array", "items": {"type": "string"}},
+        "review_outcome": {
+          "type": ["object", "null"],
+          "properties": {
+            "status": {"type": "string"},
+            "action": {"enum": ["no_escalation", "manual_security_review", "verify_carrier", "review_dwell_plan", "enhanced_monitoring"]},
+            "note": {"type": "string"},
+            "reviewed_at": {"type": "string", "format": "date-time"}
+          }
+        }
+      }
+    },
+    "publicContext": {
+      "type": "object",
+      "required": ["context_id", "source_label", "context_type", "period", "summary", "scope", "source_url"],
+      "properties": {
+        "context_id": {"type": "string"},
+        "source_label": {"type": "string"},
+        "context_type": {"enum": ["commodity_trend", "geography_trend", "timing_trend", "general_theft_trend"]},
+        "period": {"type": "string"},
+        "summary": {"type": "string"},
+        "scope": {"type": "string"},
+        "source_url": {"type": "string", "format": "uri"}
+      }
+    }
+  }
+}
