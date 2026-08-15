@@ -25,7 +25,7 @@ function bandFor(score: number): ExposureBand {
 function makeFactors(seed: number): RiskFactor[] {
   const caps = [25, 20, 15, 15, 10, 10, 5]
   const raw = [
-    8 + ((seed * 7) % 18),
+    7 + ((seed * 7) % 15),
     5 + ((seed * 11) % 16),
     3 + ((seed * 5) % 13),
     4 + ((seed * 3) % 12),
