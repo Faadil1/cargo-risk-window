@@ -41,9 +41,10 @@ Current TRACE state:
 - **R — Domain Metaphor:** PASS
 - **A — Visual Direction:** PASS
 - **A — Visual Prototype:** **C — Intermodal Ledger selected / PASS**
-- **Current gate:** **2.5 — Palette / Brand**
-- **Selected palette:** `Mineral Intermodal`
-- **Next required output:** validate palette in the chosen full-screen composition, then formalize Gate 3 Design System
+- **A — Palette / Brand:** **Mineral Intermodal / PASS**
+- **A — Design System:** **Intermodal Ledger System defined / PASS**
+- **Current gate:** **3.25 — Typography Lock**
+- **Next required output:** select and validate the operational, technical and optional display typography roles before implementation
 
 Frozen decisions must not be reopened without a concrete conflict.
 
@@ -97,23 +98,36 @@ The selected composition makes the freight domain visible through:
 
 A and B remain archived as exploration references only.
 
-See [`docs/DESIGN_DIRECTION.md`](docs/DESIGN_DIRECTION.md).
-
 ## Palette — Mineral Intermodal
 
-The current Gate 2.5 palette deliberately avoids white/navy/red dashboard conventions.
+The visual system deliberately avoids white/navy/red dashboard conventions.
 
 Core colors:
-- mineral sage canvas `#D8DCCF`;
+- mineral sage canvas `#D8DCCF` — user locked;
 - warm bone surfaces `#EAE1D5`;
 - aubergine-charcoal ink `#2B2730`;
 - freight violet active state `#635D9A`;
-- oxidized teal normal/verified `#3E7B6C`;
+- oxidized teal routine/verified `#3E7B6C`;
 - terracotta elevated exposure `#D46A4C`;
 - plum critical review `#8E4662`;
 - muted brass public context `#B7A85A`.
 
 See [`docs/PALETTE_BRAND.md`](docs/PALETTE_BRAND.md).
+
+## Design system — Intermodal Ledger System
+
+The system is now defined around:
+- modular intermodal/container-inspired geometry;
+- a 12-column desktop grid;
+- a manifest row component rather than floating SaaS cards;
+- semantic route-module states;
+- transparent factor-contribution components;
+- public-context separation;
+- a human review-mark action area;
+- responsive behavior that becomes sequential on narrow screens;
+- non-color cues for every exposure state.
+
+See [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md).
 
 ## Repository map
 
@@ -124,11 +138,12 @@ docs/
   RISK_INDEX.md             Transparent exposure-index specification
   DESIGN_DIRECTION.md       Selected Intermodal Ledger composition
   VISUAL_PROTOTYPE_BRIEF.md Gate 2.25 comparison contract
-  PALETTE_BRAND.md          Gate 2.5 Mineral Intermodal palette
+  PALETTE_BRAND.md          Frozen Mineral Intermodal palette
+  DESIGN_SYSTEM.md          Intermodal Ledger design system
 
 data/
   synthetic-schema.json     Machine-readable synthetic data schema
-src/                        Product implementation — created after design-system lock
+src/                        Product implementation — starts after typography lock
 public/                     Public assets — created when implementation starts
 ```
 
@@ -142,6 +157,6 @@ public/                     Public assets — created when implementation starts
 
 ## Current status
 
-**Planning / Gate 2.5 — palette validation before Design System.**
+**Planning / Gate 3.25 — Typography Lock.**
 
-Do not start implementation with a generic dashboard shell. Validate the selected Intermodal Ledger composition using the Mineral Intermodal palette, then proceed to Gate 3 for typography, spacing, component states, route-module rules, visualization semantics and responsive behavior.
+Do not start implementation with a random font stack. First select typography roles that preserve the Intermodal Ledger identity, dense operational readability, shipment-ID clarity and tabular-numeric legibility.
