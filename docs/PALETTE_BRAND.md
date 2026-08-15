@@ -14,8 +14,6 @@ The main application canvas is **explicitly selected and locked by the user**:
 
 This is the visual anchor for the Intermodal Ledger direction. Do not silently replace it with white, off-white, navy or black during implementation.
 
-The remaining colors are semantic companions and may still be tuned during full-screen validation if contrast or hierarchy requires it.
-
 ## Core colors
 
 | Role | Hex | Use |
@@ -98,17 +96,12 @@ The brand should feel like a purpose-built logistics instrument, not a security 
 
 ## Gate result
 
-**Gate 2.5: IN VALIDATION.**
+**Gate 2.5: PASS / FROZEN.**
 
-Locked now:
+Frozen:
 - Intermodal Ledger composition;
-- mineral sage canvas `#D8DCCF`.
+- mineral sage canvas `#D8DCCF`;
+- warm bone operational surfaces;
+- semantic separation of active, verified, elevated, critical and public-context colors.
 
-Still to validate in the full-screen prototype:
-- surface warmth;
-- violet/teal balance;
-- terracotta/plum severity hierarchy;
-- presentation-size contrast;
-- whether the palette remains distinctive without hurting operational readability.
-
-The palette is not yet a full Design System. Gate 3 must still define typography, spacing, component states, borders, grids, data-viz semantics and responsive behavior.
+The palette is now the basis for [`DESIGN_SYSTEM.md`](DESIGN_SYSTEM.md). Future tuning is allowed only for accessibility/contrast defects, not to drift back toward generic white/navy/red styling.
