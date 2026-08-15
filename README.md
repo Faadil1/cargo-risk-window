@@ -28,8 +28,6 @@ All shipment-level data in this repository is synthetic.
 
 ## TRACE workflow
 
-This project is developed with the TRACE Design Workflow.
-
 Workflow source of truth:
 
 `Faadil1/trace-design-workflow/adapters/day-challenge-cargo-risk-window.yaml`
@@ -37,27 +35,29 @@ Workflow source of truth:
 Current TRACE state:
 
 - **T — Truth:** PASS
-- **R — Research / Product Flow:** PASS
+- **R — Product Flow:** PASS
 - **R — Domain Metaphor:** PASS
 - **A — Visual Direction:** PASS
-- **A — Visual Prototype:** **C — Intermodal Ledger selected / PASS**
+- **A — Visual Prototype:** **C — Intermodal Ledger / PASS**
 - **A — Palette / Brand:** **Mineral Intermodal / PASS**
-- **A — Design System:** **Intermodal Ledger System defined / PASS**
-- **Current gate:** **3.25 — Typography Lock**
-- **Next required output:** select and validate the operational, technical and optional display typography roles before implementation
+- **A — Design System:** **Intermodal Ledger System / PASS**
+- **A — Typography:** **Archivo + IBM Plex Mono / PASS**
+- **C — Differentiation:** PASS
+- **C — Uniqueness Audit:** PASS at design-contract level
+- **C — Data Visualization:** PASS
+- **Current status:** **READY FOR IMPLEMENTATION**
+- **Next required output:** working product implementation, then Gate 6 QA / Polish
 
 Frozen decisions must not be reopened without a concrete conflict.
 
 ## Frozen product structure
-
-The Day Challenge is intentionally compact. It is one operational review workspace rather than a six-page dashboard.
 
 ```text
 Review Queue
     ↓
 Shipment Review
     ↓
-Risk Corridor
+Intermodal Risk Corridor
     ↓
 Public Context
     ↓
@@ -68,11 +68,22 @@ Human Review Outcome
 
 The central visualization combines **route + time + modal segments + exposure factors** so the reviewer can see when a shipment enters an exposure window and which factors created that state.
 
-The selected prototype expresses this as an intermodal route strip rather than a conventional map-first security dashboard.
+### Narrative signature — Exposure Window Build
+
+Selection reveals the logic in order:
+
+`shipment → route modules → critical window → reason codes → factor contributions → human review state`
+
+### Supporting micro-interactions
+
+- Manifest Index Transfer
+- Review Mark
+
+See [`docs/DIFFERENTIATION_MOTION.md`](docs/DIFFERENTIATION_MOTION.md).
 
 ## Exposure Index
 
-The current transparent heuristic allocates a maximum of 100 points:
+The transparent heuristic allocates a maximum of 100 points:
 
 | Factor | Max points |
 |---|---:|
@@ -84,7 +95,7 @@ The current transparent heuristic allocates a maximum of 100 points:
 | Carrier verification | 10 |
 | Recent public incident context | 5 |
 
-Every shipment must expose the component contributions and visible reason codes. See [`docs/RISK_INDEX.md`](docs/RISK_INDEX.md).
+Every shipment must expose component contributions and visible reason codes. See [`docs/RISK_INDEX.md`](docs/RISK_INDEX.md).
 
 ## Selected visual prototype — C: Intermodal Ledger
 
@@ -93,14 +104,12 @@ The selected composition makes the freight domain visible through:
 - modular route segments;
 - route/time progression;
 - reason codes attached to operational segments;
-- a review-mark style human outcome;
+- review-mark human outcome;
 - one dominant Intermodal Risk Corridor.
 
 A and B remain archived as exploration references only.
 
 ## Palette — Mineral Intermodal
-
-The visual system deliberately avoids white/navy/red dashboard conventions.
 
 Core colors:
 - mineral sage canvas `#D8DCCF` — user locked;
@@ -114,20 +123,40 @@ Core colors:
 
 See [`docs/PALETTE_BRAND.md`](docs/PALETTE_BRAND.md).
 
-## Design system — Intermodal Ledger System
+## Typography — locked
 
-The system is now defined around:
-- modular intermodal/container-inspired geometry;
-- a 12-column desktop grid;
-- a manifest row component rather than floating SaaS cards;
-- semantic route-module states;
-- transparent factor-contribution components;
-- public-context separation;
-- a human review-mark action area;
-- responsive behavior that becomes sequential on narrow screens;
-- non-color cues for every exposure state.
+- **Archivo** — operational/UI/readability.
+- **IBM Plex Mono** — shipment IDs, codes, dates/times and technical numeric data.
+- no third display family.
+- default body: 14 px;
+- dense manifest: 13 px;
+- minimum meaningful desktop text: 11 px;
+- operational numbers use tabular numerals.
 
-See [`docs/DESIGN_SYSTEM.md`](docs/DESIGN_SYSTEM.md).
+See [`docs/TYPOGRAPHY.md`](docs/TYPOGRAPHY.md) and [`design/typography.tokens.json`](design/typography.tokens.json).
+
+## Data visualization
+
+Primary visualization approach:
+
+```text
+React
+  + SVG
+  + D3 scale/geometry helpers
+```
+
+The Risk Corridor remains the primary analytical artifact. Supporting bars/context charts stay lightweight. A geographic map is optional and secondary.
+
+See [`docs/DATA_VISUALIZATION.md`](docs/DATA_VISUALIZATION.md).
+
+## Motion ownership
+
+- **Motion** → React layout/state transitions such as manifest selection and reason detail state.
+- **Anime.js** → Risk Corridor SVG/editorial sequence and ordered route/reason reveals.
+- GSAP / Rive / Three.js → not required for the MVP.
+- no ambient looping threat animation.
+
+Reduced motion must preserve a complete static state.
 
 ## Repository map
 
@@ -140,11 +169,18 @@ docs/
   VISUAL_PROTOTYPE_BRIEF.md Gate 2.25 comparison contract
   PALETTE_BRAND.md          Frozen Mineral Intermodal palette
   DESIGN_SYSTEM.md          Intermodal Ledger design system
+  TYPOGRAPHY.md             Locked typography system
+  DIFFERENTIATION_MOTION.md Signature + motion ownership
+  UNIQUENESS_AUDIT.md       Design-level anti-generic audit
+  DATA_VISUALIZATION.md     Visualization tools and encodings
+
+design/
+  typography.tokens.json    Machine-readable typography tokens
 
 data/
   synthetic-schema.json     Machine-readable synthetic data schema
-src/                        Product implementation — starts after typography lock
-public/                     Public assets — created when implementation starts
+src/                        Product implementation
+public/                     Public assets
 ```
 
 ## Data policy
@@ -155,8 +191,21 @@ public/                     Public assets — created when implementation starts
 - personal data: none;
 - synthetic/public boundaries must remain visible in the UI and case study.
 
+## Implementation guardrails
+
+Do not replace the frozen product with:
+- generic KPI-card hero layouts;
+- a circular risk gauge as the main visualization;
+- navy/black command-center styling;
+- red alerts everywhere;
+- pulsing maps/radar effects;
+- AI recommendation/confidence language;
+- glass cards;
+- tiny limitation text;
+- a map-first layout that makes the Intermodal Risk Corridor secondary.
+
 ## Current status
 
-**Planning / Gate 3.25 — Typography Lock.**
+**Pre-build design gates complete — READY FOR IMPLEMENTATION.**
 
-Do not start implementation with a random font stack. First select typography roles that preserve the Intermodal Ledger identity, dense operational readability, shipment-ID clarity and tabular-numeric legibility.
+Build the frozen product first. After a working implementation exists, run Gate 6 QA against the real rendered desktop/mobile viewport, including typography, accessibility, reduced motion, uniqueness, claim boundaries and presentation capture.
