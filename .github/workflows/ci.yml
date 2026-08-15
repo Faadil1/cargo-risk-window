@@ -30,13 +30,12 @@ jobs:
           done
           cat /tmp/cargo-risk-window-vite.log
           exit 1
-      - name: Install Chromium
-        run: npx -y playwright@latest install chromium
-      - name: Capture rendered QA
+      - name: Install Playwright for QA only
         run: |
-          mkdir -p qa-artifacts
-          npx -y playwright@latest screenshot --viewport-size="1440,900" --wait-for-timeout=1600 http://127.0.0.1:4173 qa-artifacts/desktop-1440x900.png
-          npx -y playwright@latest screenshot --viewport-size="390,844" --wait-for-timeout=1200 --full-page http://127.0.0.1:4173 qa-artifacts/mobile-390x844.png
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium
+      - name: Run rendered interaction QA
+        run: node qa/rendered-qa.mjs
       - name: Upload rendered QA
         uses: actions/upload-artifact@v4
         with:
