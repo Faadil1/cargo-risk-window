@@ -1,0 +1,34 @@
+{
+  "system": "Intermodal Ledger Typography",
+  "status": "frozen",
+  "families": {
+    "operational": "Archivo",
+    "technical": "IBM Plex Mono"
+  },
+  "weights": {
+    "archivo": [400, 500, 600, 700],
+    "ibmPlexMono": [400, 500, 600]
+  },
+  "roles": {
+    "displayApp": {"family": "Archivo", "weight": 700, "sizePx": 30, "lineHeightPx": 34},
+    "displayScore": {"family": "Archivo", "weight": 700, "sizePx": 38, "lineHeightPx": 40, "tabularNums": true},
+    "headingScreen": {"family": "Archivo", "weight": 700, "sizePx": 24, "lineHeightPx": 30},
+    "headingSection": {"family": "Archivo", "weight": 600, "sizePx": 16, "lineHeightPx": 20},
+    "headingModule": {"family": "Archivo", "weight": 600, "sizePx": 14, "lineHeightPx": 18},
+    "bodyPrimary": {"family": "Archivo", "weight": 400, "sizePx": 14, "lineHeightPx": 20},
+    "bodyCompact": {"family": "Archivo", "weight": 400, "sizePx": 13, "lineHeightPx": 18},
+    "labelAction": {"family": "Archivo", "weight": 600, "sizePx": 13, "lineHeightPx": 16},
+    "labelMicro": {"family": "Archivo", "weight": 500, "sizePx": 11, "lineHeightPx": 14},
+    "monoId": {"family": "IBM Plex Mono", "weight": 600, "sizePx": 13, "lineHeightPx": 18},
+    "monoData": {"family": "IBM Plex Mono", "weight": 500, "sizePx": 12, "lineHeightPx": 16, "tabularNums": true},
+    "monoMicro": {"family": "IBM Plex Mono", "weight": 400, "sizePx": 11, "lineHeightPx": 14, "tabularNums": true}
+  },
+  "constraints": {
+    "minimumMeaningfulDesktopPx": 11,
+    "defaultBodyPx": 14,
+    "denseManifestBodyPx": 13,
+    "thirdDisplayFamilyAllowed": false,
+    "tabularNumeralsForOperationalNumbers": true,
+    "importantLimitationsMayNotUseTinyFooterText": true
+  }
+}
