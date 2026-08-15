@@ -2,7 +2,7 @@
 
 ## Status
 
-**POLISH VALIDATED — LIVE PROMOTION REQUIRED**
+**PASS — LIVE VERIFIED**
 
 Evaluation date: 2026-08-15
 
@@ -20,9 +20,7 @@ Can a first-time reviewer understand, without the project pitch:
 
 The production alias `https://cargo-risk-window.vercel.app` returned HTTP 200 and served the Cargo Risk Window Vite application.
 
-The live deployment at the start of Gate 6.5 was built from product commit:
-
-`a048800d6a8317e259a02c6b0df719b629cc12b6`
+At the start of Gate 6.5, production served the earlier validated product build `a048800d6a8317e259a02c6b0df719b629cc12b6`.
 
 ### Baseline verdict
 
@@ -49,7 +47,7 @@ The correction adds a compact freight-native review checklist instead of decorat
 - Secure parking / handoff
 - Monitoring priority
 
-The checklist shows review tasks/status without claiming that safeguards were completed when the underlying prototype does not contain such evidence.
+The checklist shows review tasks/status without claiming that safeguards were completed when the prototype does not contain such evidence.
 
 Implementation commit:
 
@@ -57,32 +55,37 @@ Implementation commit:
 
 ## Post-polish rendered validation
 
-GitHub Actions run:
+GitHub Actions run `31892107982`: **PASS**.
 
-`31892107982`
-
-Result: **PASS**
-
-The run passed:
-
-- install;
-- TypeScript/Vite production build;
-- desktop 1440×900 render;
-- keyboard focus;
-- alternate shipment selection;
-- escalation state;
-- tablet 900×1100;
-- mobile 390×844;
-- reduced-motion state.
+The run passed install, TypeScript/Vite production build, desktop 1440×900, keyboard focus, alternate shipment selection, escalation state, tablet 900×1100, mobile 390×844 and reduced-motion QA.
 
 Rendered evidence confirms that the Human Review column now has a clear operational sequence while preserving visual restraint. In the escalation state, Monitoring priority changes to `Enhanced`, while other checklist items remain review tasks rather than being falsely marked complete.
 
+## Live promotion verification
+
+The exact Gate 6.5 product commit was independently rebuilt by Vercel from Git commit `2b4135a0a264f63cc604942d1fbd0dc22e47584b`.
+
+Production deployment:
+
+- Vercel deployment ID: `dpl_7su3zUSqMLdCtisBQ4xfHA8peUZT`
+- canonical alias: `https://cargo-risk-window.vercel.app`
+- deployment status: `READY`
+- target: `production`
+- JavaScript asset: `assets/index-BYTxu-5Z.js`
+- CSS asset: `assets/index-784W_psI.css`
+
+The canonical alias returned HTTP 200 with those exact asset hashes. The live JavaScript bundle contains the new Human Review checklist labels, confirming that production is no longer serving the pre-polish build.
+
 ## Gate 6.5 decision
 
-The evaluator-facing composition and interaction are now **PASS at the validated rendered build**.
+**PASS.**
 
-Gate 6.5 remains open only because the production alias still serves the previous validated build. The corrected build must be promoted to Vercel and rechecked at the live alias before Gate 6.5 can be recorded as fully complete.
+The evaluator can see the full proof path in the live product:
+
+`priority shipment → exposure corridor → reason codes/factor breakdown → claim boundary → human review checklist → reviewer action`
+
+No material evaluator-facing gap remains from Gate 6.5. The live product preserves the synthetic/public-data boundary and the non-predictive claim boundary.
 
 ## Next required output
 
-Promote commit `2b4135a0a264f63cc604942d1fbd0dc22e47584b` (or its exact CI-produced Vite artifact) to the Cargo Risk Window Vercel production project, verify the alias, then close Gate 6.5 and proceed to Gate 6.75 Demo Narrative / Evidence Film.
+Proceed to **Gate 6.75 — Demo Narrative / Evidence Film**. The demo must use the real live product for every proof-bearing moment and must not imply prediction accuracy, real-time threat intelligence, automated security decisions or any capability stronger than the deployed prototype.
