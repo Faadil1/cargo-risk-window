@@ -38,7 +38,7 @@ try {
   const focusId = await page.locator('.focus-header h1').textContent()
   const factorTotal = await page.locator('.factor-total').textContent()
   const claimBoundary = await page.locator('.exposure-block small').textContent()
-  const checklistLabels = await page.locator('.review-checklist__label').allTextContents()
+  const checklistLabels = await page.locator('.review-panel__verification span').allTextContents()
 
   assert(heroId?.trim() === 'SHPM-5687', 'SHPM-5687 must rank first')
   assert(focusId?.trim() === 'SHPM-5687', 'SHPM-5687 must be the live focus shipment')
@@ -83,7 +83,7 @@ try {
   await page.locator('.button--primary').click()
   await pause(page, 900)
   const reviewHeading = await page.locator('.review-panel h2').textContent()
-  const monitoringState = await page.locator('.review-checklist__item').filter({ hasText: 'Monitoring priority' }).locator('strong').textContent()
+  const monitoringState = await page.locator('.review-panel__verification').filter({ hasText: 'Monitoring priority' }).locator('strong').textContent()
   assert(reviewHeading?.trim() === 'Escalated for review', 'live escalation state must be visible')
   assert(monitoringState?.trim() === 'Enhanced', 'Monitoring priority must change to Enhanced after escalation')
   await page.screenshot({ path: `${output}/07-human-escalation.png` })
