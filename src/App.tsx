@@ -7,7 +7,6 @@ import {
   Container,
   FileCheck2,
   MapPin,
-  RailSymbol,
   Route,
   ShieldCheck,
   Truck,
@@ -26,7 +25,7 @@ const bandLabel: Record<ExposureBand, string> = {
 
 function SegmentIcon({ mode }: { mode: RouteSegment['mode'] }) {
   const props = { size: 18, strokeWidth: 1.7, 'aria-hidden': true as const }
-  if (mode === 'rail-yard') return <RailSymbol {...props} />
+  if (mode === 'rail-yard') return <Container {...props} />
   if (mode === 'terminal') return <Container {...props} />
   if (mode === 'secure-dwell') return <Clock3 {...props} />
   if (mode === 'border') return <ShieldCheck {...props} />
