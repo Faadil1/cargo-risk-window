@@ -6,11 +6,21 @@ This palette intentionally avoids the classic white/navy/red security-dashboard 
 
 The interface should feel industrial and operational without looking militarized or cyber-themed.
 
+## User-confirmed anchor
+
+The main application canvas is **explicitly selected and locked by the user**:
+
+- `#D8DCCF` — mineral sage / industrial mist.
+
+This is the visual anchor for the Intermodal Ledger direction. Do not silently replace it with white, off-white, navy or black during implementation.
+
+The remaining colors are semantic companions and may still be tuned during full-screen validation if contrast or hierarchy requires it.
+
 ## Core colors
 
 | Role | Hex | Use |
 |---|---|---|
-| Canvas / mineral sage | `#D8DCCF` | Main application background |
+| Canvas / mineral sage | `#D8DCCF` | Main application background — USER LOCKED |
 | Surface / warm bone | `#EAE1D5` | Panels, manifest rows, review surfaces |
 | Structural ink | `#2B2730` | Primary text, rules, strong structure |
 | Freight violet | `#635D9A` | Selected shipment, active route/module, focus state |
@@ -43,7 +53,7 @@ Avoid large fields of pure white.
 Preferred layering:
 
 ```text
-Mineral sage canvas #D8DCCF
+Mineral sage canvas #D8DCCF  ← user-selected anchor
   ↓
 Warm bone operational surfaces #EAE1D5
   ↓
@@ -88,6 +98,17 @@ The brand should feel like a purpose-built logistics instrument, not a security 
 
 ## Gate result
 
-**Gate 2.5 palette candidate: selected for full-screen prototype validation.**
+**Gate 2.5: IN VALIDATION.**
+
+Locked now:
+- Intermodal Ledger composition;
+- mineral sage canvas `#D8DCCF`.
+
+Still to validate in the full-screen prototype:
+- surface warmth;
+- violet/teal balance;
+- terracotta/plum severity hierarchy;
+- presentation-size contrast;
+- whether the palette remains distinctive without hurting operational readability.
 
 The palette is not yet a full Design System. Gate 3 must still define typography, spacing, component states, borders, grids, data-viz semantics and responsive behavior.
