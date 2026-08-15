@@ -1,0 +1,36 @@
+name: Live Demo Capture
+
+on:
+  push:
+    branches:
+      - build/intermodal-ledger
+    paths:
+      - 'demo/**'
+      - '.github/workflows/demo-capture.yml'
+  workflow_dispatch:
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Playwright for capture
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install --with-deps chromium
+      - name: Capture production evidence
+        env:
+          DEMO_BASE_URL: https://cargo-risk-window.vercel.app
+        run: node demo/live-capture.mjs
+      - name: Upload live evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-6-75-live-evidence
+          path: demo-artifacts/
+          if-no-files-found: error
