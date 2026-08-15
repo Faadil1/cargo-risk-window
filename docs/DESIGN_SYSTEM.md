@@ -282,28 +282,63 @@ Use a sequential review flow:
 ## 17. Accessibility and readability
 
 - all semantic colors need non-color cues;
-- minimum body target: 14 px desktop;
-- IDs/metadata may go smaller only if still clearly readable in presentation capture;
+- minimum meaningful desktop text: 11 px;
+- default body: 14 px;
+- dense manifest body: 13 px;
 - interactive targets: ~40–44 px minimum where possible;
 - preserve visible focus states;
-- critical/review labels must remain readable in grayscale/print capture.
+- critical/review labels must remain readable in grayscale/print capture;
+- important limitations may never be hidden in tiny footer text.
 
-## 18. Typography status
+## 18. Typography — LOCKED
 
-**Not locked yet.**
+Full specification: [`TYPOGRAPHY.md`](TYPOGRAPHY.md).
 
-Gate 3.25 must select and validate:
-- operational reading face;
-- technical/ID face;
-- display role if needed;
-- loaded weights;
-- exact type scale;
-- tabular numeral behavior.
+### Families
+- operational/UI/readability: **Archivo**;
+- technical/IDs/codes/dates/numeric rows: **IBM Plex Mono**;
+- third display family: **none**.
 
-Do not hard-code a random font stack before Gate 3.25.
+### Loaded weight intent
+Archivo:
+- 400 normal reading;
+- 500 compact navigation/labels;
+- 600 modules/actions;
+- 700 major titles, selected shipment and key score.
+
+IBM Plex Mono:
+- 400 metadata;
+- 500 operational data;
+- 600 important IDs/reason codes.
+
+### Core desktop roles
+
+| Role | Family | Size / line-height |
+|---|---|---|
+| App title | Archivo 700 | 30 / 34 px |
+| Exposure Index | Archivo 700 | 38 / 40 px |
+| Focus shipment title | Archivo 700 | 24 / 30 px |
+| Section heading | Archivo 600 | 16 / 20 px |
+| Module heading | Archivo 600 | 14 / 18 px |
+| Reading body | Archivo 400 | 14 / 20 px |
+| Dense manifest | Archivo 400 | 13 / 18 px |
+| Micro label | Archivo 500 | 11 / 14 px |
+| Shipment ID | IBM Plex Mono 600 | 13 / 18 px |
+| Data / code / time | IBM Plex Mono 500 | 12 / 16 px |
+| Technical micro | IBM Plex Mono 400 | 11 / 14 px |
+
+Operational numbers use tabular numerals. Long explanation copy never uses mono.
+
+Machine-readable tokens: [`../design/typography.tokens.json`](../design/typography.tokens.json).
 
 ## Gate result
 
-**Gate 3 design-system architecture: defined.**
+**Gate 3 and Gate 3.25: PASS / FROZEN.**
 
-Before implementation, proceed to **Gate 3.25 — Typography Lock** and then run the uniqueness audit against the selected Intermodal Ledger full-screen composition.
+Frozen system foundations:
+- C — Intermodal Ledger composition;
+- Mineral Intermodal palette;
+- Intermodal Ledger component/grid/data-viz rules;
+- Archivo + IBM Plex Mono typography and scale.
+
+Next TRACE gate: **Gate 4 — Differentiation / Motion Job Matrix**, followed by **Gate 4.25 — Uniqueness Audit** before implementation.
