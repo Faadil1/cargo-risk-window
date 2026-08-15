@@ -1,0 +1,35 @@
+name: Freeze Dependency Lock
+
+on:
+  push:
+    branches:
+      - build/intermodal-ledger
+    paths:
+      - '.github/workflows/freeze-lock.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  lock:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Generate lockfile
+        run: npm install --package-lock-only --ignore-scripts
+      - name: Commit lockfile if missing or changed
+        run: |
+          if git diff --quiet -- package-lock.json && git ls-files --error-unmatch package-lock.json >/dev/null 2>&1; then
+            echo 'package-lock.json is already current.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add package-lock.json
+          git commit -m 'Freeze npm dependency graph'
+          git push origin HEAD:build/intermodal-ledger
